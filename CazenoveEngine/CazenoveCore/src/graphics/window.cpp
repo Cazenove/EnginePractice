@@ -1,5 +1,6 @@
 #include "window.h"
 #include "iostream"
+
 namespace cazenove {
 	Window::Window(const char* name, int width, int height) {
 		m_Title = name;
@@ -19,6 +20,7 @@ namespace cazenove {
 			exit(EXIT_FAILURE);
 		}
 
+		glfwMakeContextCurrent(m_Window);
 	}
 
 	Window::~Window() {
@@ -29,12 +31,20 @@ namespace cazenove {
 	}
 
 	void Window::clear() const {
-
+		glClear(GL_COLOR_BUFFER_BIT);
 	}
 
 	void Window::update() {
-		
-		
+		float ratio;
+		int width, height;
+
+		glfwGetFramebufferSize(m_Window, &width, &height);
+		ratio = width / (float)height;
+
+		glViewport(0, 0, width, height);
+
+		glfwSwapBuffers(m_Window);
+		glfwPollEvents();
 	}
 
 	bool Window::closed() const {
@@ -65,5 +75,13 @@ namespace cazenove {
 		glfwDestroyWindow(m_Window);
 		glfwTerminate();
 		exit(EXIT_SUCCESS);
+	}
+
+	void Window::error_callback(int error, const char* description) {
+		fprintf(stderr, "Error: %s\n", description);
+	}
+
+	static void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods) {
+
 	}
 }

@@ -1,5 +1,6 @@
+#define GLFW_INCLUDE_NONE
+#include <GL/glew.h>
 #include <GLFW/glfw3.h>
-#include <gl/GL.h>
 
 namespace cazenove {
 	class Window {
@@ -20,5 +21,6 @@ namespace cazenove {
 		inline int getHeight() const { return m_Height; }
 	private:
 		bool init();
+		void error_callback(int error, const char* description);
 	};
 }
